@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -8,6 +8,7 @@ import {
   faStackOverflow,
 } from "@fortawesome/free-brands-svg-icons";
 import { Box, HStack, Link } from "@chakra-ui/react";
+import useScroll from "../hooks/useScroll";
 
 const socials = [
   {
@@ -33,6 +34,9 @@ const socials = [
 ];
 
 const Header = () => {
+
+  const [hide, setHide] = useState(false);
+
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
@@ -44,17 +48,34 @@ const Header = () => {
     }
   };
 
+  const scroll = useScroll();
+  let isHidden = false;
+
+  useEffect(() => {
+
+
+    if (scroll.y > 150 && scroll.lastY > 0)
+      isHidden = true;
+    else if (scroll.y < 150 && scroll.lastY < 0)
+      isHidden = false;
+    isHidden === false ? setHide(0) : setHide(-200);
+    console.log(scroll.y);
+  }, [scroll.y, scroll.lastY]);
+
   return (
     <Box
+
       position="fixed"
       top={0}
       left={0}
       right={0}
-      translateY={0}
+      transform="auto"
+      translateY={hide}
       transitionProperty="transform"
       transitionDuration=".3s"
       transitionTimingFunction="ease-in-out"
-      backgroundColor="#18181b"
+      backgroundColor="rgba(0, 0, 0, 0.8)"
+      backdropFilter="saturate(180%) blur(5px)"
     >
       <Box color="white" maxWidth="1280px" margin="0 auto">
         <HStack
@@ -62,6 +83,11 @@ const Header = () => {
           py={4}
           justifyContent="space-between"
           alignItems="space-between"
+          translateY="200px"
+          transitionProperty="transform"
+          transitionDuration=".3s"
+          transitionTimingFunction="ease-in-out"
+
         >
           <nav>
             {socials && socials.map((elem, index) => {

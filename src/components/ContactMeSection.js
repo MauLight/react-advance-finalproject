@@ -40,7 +40,7 @@ const LandingSection = () => {
     }),
 
     onSubmit: values => {
-     // e.preventDefault()
+      // e.preventDefault()
       console.log("Hey!")
       submit("url", formik.values.firstname);
       console.log(response);
