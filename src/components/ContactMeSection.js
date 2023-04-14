@@ -41,13 +41,16 @@ const LandingSection = () => {
 
     onSubmit: values => {
       // e.preventDefault()
-      console.log("Hey!")
+      console.log(formik.values.firstname)
       submit("url", formik.values.firstname);
-      console.log(response);
-      onOpen(response.type, response.message);
-      response.type === "success" ? formik.resetForm() : null;
     },
   })
+
+  useEffect(() => {
+    console.log(response);
+    response && onOpen(response.type, response.message);
+    response && response.type === "success" ? formik.resetForm() : null;
+  }, [response]);
 
   return (
     <FullScreenSection

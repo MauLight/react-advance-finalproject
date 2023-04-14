@@ -1,7 +1,15 @@
-import { AtSignIcon, CalendarIcon, EditIcon, UnlockIcon } from '@chakra-ui/icons'
-import { Avatar, AvatarBadge, Button, Link, List, ListIcon, ListItem, Text, useToast } from '@chakra-ui/react'
+import { AtSignIcon, CalendarIcon, EditIcon, StarIcon, UnlockIcon } from '@chakra-ui/icons'
+import { Avatar, AvatarBadge, Button, HStack, Link, List, ListIcon, ListItem, Text, useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import useScroll from '../hooks/useScroll';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import {
+    faGithub,
+    faLinkedin,
+    faMedium,
+    faStackOverflow,
+} from "@fortawesome/free-brands-svg-icons";
 
 export default function Sidebar() {
 
@@ -9,7 +17,30 @@ export default function Sidebar() {
 
     const toast = useToast();
 
-    const handleClick = () => {
+    const socials = [
+        {
+            icon: faEnvelope,
+            url: "mailto: hello@example.com",
+        },
+        {
+            icon: faGithub,
+            url: "https://github.com",
+        },
+        {
+            icon: faLinkedin,
+            url: "https://www.linkedin.com",
+        },
+        {
+            icon: faMedium,
+            url: "https://medium.com",
+        },
+        {
+            icon: faStackOverflow,
+            url: "https://stackoverflow.com",
+        },
+    ];
+
+    const handleOut = () => {
         toast({
             title: "Logged out",
             description: "You've succesfully logged out of the system.",
@@ -21,6 +52,17 @@ export default function Sidebar() {
             icon: <UnlockIcon />
         });
     }
+
+    const handleClick = (anchor) => () => {
+        const id = `${anchor}-section`;
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }
+    };
 
     const btnStyle = {
         p: "30px",
@@ -36,6 +78,13 @@ export default function Sidebar() {
         ':active': {
             bg: "tomato",
             color: "white",
+        }
+    }
+
+    const noUnder = {
+        ':hover': {
+            color: "#5e2a65",
+            textDecoration: "none"
         }
     }
 
@@ -77,26 +126,42 @@ export default function Sidebar() {
                     </AvatarBadge>
                 </Avatar>
             </ListItem>
+            <ListItem my={7} justifyContent="center" display="flex">
+                <HStack>
+                    {socials && socials.map((elem, index) => {
+                        return (
+                            <Link key={elem.url} href={elem.url}><FontAwesomeIcon icon={elem.icon} size="1x" className='nav-icon2' /></Link>
+                        )
+                    })}
+                </HStack>
+
+            </ListItem>
             <ListItem justifyContent="center" display="flex" >
-                <Link to="/">
-                    <ListIcon as={CalendarIcon} />
-                    Dashboard
+                <Link className="nav-item2" sx={noUnder} onClick={handleClick("landing")} href="/#landing">
+                    <HStack>
+                        <ListIcon as={StarIcon} py={1} />
+                        <Text>Profile</Text>
+                    </HStack>
                 </Link>
             </ListItem>
             <ListItem justifyContent="center" display="flex">
-                <Link to="/create">
-                    <ListIcon as={EditIcon} />
-                    Create
+                <Link className="nav-item2" sx={noUnder} onClick={handleClick("projects")} href="/#projects">
+                    <HStack>
+                        <ListIcon as={EditIcon} py={1} />
+                        <Text>Featured</Text>
+                    </HStack>
                 </Link>
             </ListItem>
             <ListItem justifyContent="center" display="flex" >
-                <Link to="/profile">
-                    <ListIcon as={AtSignIcon} />
-                    Profile
+                <Link className="nav-item2" sx={noUnder} onClick={handleClick("contactme")} href="/#contact-me">
+                    <HStack>
+                        <ListIcon as={AtSignIcon} py={1} />
+                        <Text>Contact Me</Text>
+                    </HStack>
                 </Link>
             </ListItem>
             <ListItem justifyContent="center" display="flex" >
-                <Button sx={btnStyle} onClick={handleClick} >Log Out</Button>
+                <Button sx={btnStyle} onClick={handleOut} >Log Out</Button>
             </ListItem>
         </List>
     )

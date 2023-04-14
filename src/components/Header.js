@@ -62,6 +62,13 @@ const Header = () => {
     console.log(scroll.y);
   }, [scroll.y, scroll.lastY]);
 
+  const noUnder = {
+    ':hover': {
+      color: "tomato",
+      textDecoration: "none"
+    }
+  }
+
   return (
     <Box
 
@@ -74,7 +81,7 @@ const Header = () => {
       transitionProperty="transform"
       transitionDuration=".3s"
       transitionTimingFunction="ease-in-out"
-      backgroundColor="rgba(0, 0, 0, 0.8)"
+      backgroundColor="rgba(0, 0, 0, 0.4)"
       backdropFilter="saturate(180%) blur(5px)"
     >
       <Box color="white" maxWidth="1280px" margin="0 auto">
@@ -92,14 +99,14 @@ const Header = () => {
           <nav>
             {socials && socials.map((elem, index) => {
               return (
-                <Link key={elem.url} mx={3} href={elem.url}><FontAwesomeIcon icon={elem.icon} size="2x" /></Link>
+                <Link key={elem.url} mx={3} href={elem.url}><FontAwesomeIcon icon={elem.icon} size="2x" className='nav-icon' /></Link>
               )
             })}
           </nav>
           <nav>
             <HStack spacing={8}>
-              <Link onClick={handleClick("contactme")} href="/#contact-me">Contact me</Link>
-              <Link onClick={handleClick("projects")} href="/#projects" >Projects</Link>
+              <Link className="nav-item" sx={noUnder} onClick={handleClick("contactme")} href="/#contact-me">Contact me</Link>
+              <Link className="nav-item" sx={noUnder} onClick={handleClick("projects")} href="/#projects" >Projects</Link>
             </HStack>
           </nav>
         </HStack>
