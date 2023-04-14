@@ -69,6 +69,7 @@ const LandingSection = () => {
               <FormControl isInvalid={formik.touched.firstname && formik.errors.firstname ? true : false}>
                 <FormLabel htmlFor="firstName">Name</FormLabel>
                 <Input
+                  variant='flushed'
                   id="firstName"
                   name="firstName"
                   {...formik.getFieldProps('firstname')}
@@ -81,6 +82,7 @@ const LandingSection = () => {
               <FormControl isInvalid={formik.touched.email && formik.errors.email ? true : false}>
                 <FormLabel htmlFor="email">Email Address</FormLabel>
                 <Input
+                  variant='flushed'
                   id="email"
                   name="email"
                   type="email"
@@ -96,6 +98,7 @@ const LandingSection = () => {
               <FormControl>
                 <FormLabel htmlFor="type">Type of enquiry</FormLabel>
                 <Select
+                  variant='flushed'
                   id="type"
                   name="type"
                   {...formik.getFieldProps('type')}
